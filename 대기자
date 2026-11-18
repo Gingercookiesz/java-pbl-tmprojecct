@@ -1,0 +1,74 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class class1 extends JFrame implements ActionListener {
+    private JButton jb1, jb2, jb3;
+    private JLabel jl1, jl2, jl3, jl4, jl5, jl7;
+    private JPanel jp1, jp2, jp3;
+    private int waiting1 = 0,waiting2 = 0,waiting3 = 0;
+    public class1() {
+        Container ct = getContentPane();
+        ct.setLayout(new BorderLayout());
+
+        jb1 = new JButton("주문하기");
+        jb2 = new JButton("주문하기");
+        jb3 = new JButton("주문하기");
+
+        jl1 = new JLabel("학생회관 식당", JLabel.CENTER);
+        jl2 = new JLabel("오렌지 식당", JLabel.CENTER);
+        jl3 = new JLabel("교직원 식당", JLabel.CENTER);
+        
+        jl4 = new JLabel("대기자수: "+waiting1, JLabel.CENTER);
+        jl5 = new JLabel("대기자수: "+waiting2, JLabel.CENTER);
+        jl7 = new JLabel("대기자수: "+waiting3, JLabel.CENTER);
+
+        // 패널 생성 시 BorderLayout 설정 (북, 중앙, 남 배치를 위해)
+        jp1 = new JPanel(new BorderLayout());
+        jp2 = new JPanel(new BorderLayout());
+        jp3 = new JPanel(new BorderLayout());
+        
+        // 각 패널에 컴포넌트 배치
+        jp1.add(jl1, BorderLayout.NORTH);
+        jp1.add(jl4, BorderLayout.CENTER);
+        jp1.add(jb1, BorderLayout.SOUTH);
+        
+        jp2.add(jl2, BorderLayout.NORTH);
+        jp2.add(jl5, BorderLayout.CENTER);
+        jp2.add(jb2, BorderLayout.SOUTH);
+        
+        jp3.add(jl3, BorderLayout.NORTH);
+        jp3.add(jl7, BorderLayout.CENTER);
+        jp3.add(jb3, BorderLayout.SOUTH);
+        
+        // 메인 프레임에 패널 배치
+        ct.add(jp1, BorderLayout.WEST);
+        ct.add(jp2, BorderLayout.CENTER);
+        ct.add(jp3, BorderLayout.EAST);
+
+        // 버튼에 액션 리스너 반드시 등록!
+        jb1.addActionListener(this);
+        jb2.addActionListener(this);
+        jb3.addActionListener(this);
+        
+        setTitle("대기자수");
+        setSize(700, 450);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // class1 자체가 JFrame이므로 this를 바로 사용하면 됩니다.
+        if (e.getSource() == jb1) {
+            new system();
+            dispose();
+        } else if (e.getSource() == jb2) {
+        	new system();
+        	dispose();
+        } else if (e.getSource() == jb3) {
+        	new teachr();
+        	dispose();
+        }
+    }
+}
