@@ -1,0 +1,199 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class system extends JFrame implements ActionListener {
+
+    private JPanel jp1, jp2, jp3;
+    private JButton jb1, jb2, jb3, jb4, jb5, jb6,jb7;
+    private JLabel jl1, jl2;
+
+    private JList<String> menuList;
+    private JList<String> cartList;
+
+    private DefaultListModel<String> model;
+    private DefaultListModel<String> cartModel;
+
+    private int total = 0;
+
+    String[] korean = {
+            "김치찌개 - 8000원",
+            "된장찌개 - 7000원",
+            "비빔밥 - 9000원"
+    };
+
+    String[] western = {
+            "파스타 - 12000원",
+            "돈까스 - 10000원",
+            "스테이크 - 25000원"
+    };
+
+    String[] noodle = {
+            "라면 - 4000원",
+            "우동 - 6000원",
+            "짜장면 - 7000원"
+    };
+
+    public system() {
+
+        setTitle("음식 주문 시스템");
+        setSize(700, 450);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
+        jp1 = new JPanel();
+        jp2 = new JPanel();
+        jp3 = new JPanel(new GridLayout(1, 2));
+
+        jl1 = new JLabel("원하는 식사 종류 선택");
+        jl2 = new JLabel("합계 : 0원");
+
+        jp1.add(jl1);
+
+        jb1 = new JButton("한식");
+        jb2 = new JButton("양식");
+        jb3 = new JButton("면류");
+        jb4 = new JButton("추가하기");
+        jb5 = new JButton("취소하기");
+        jb6 = new JButton("주문하기");
+        jb7 = new JButton("뒤로가기");
+        
+        jp2.add(jb1);
+        jp2.add(jb2);
+        jp2.add(jb3);
+        jp2.add(jb4);
+        jp2.add(jb5);
+        jp2.add(jb6);
+        jp2.add(jb7);
+
+        model = new DefaultListModel<>();
+        menuList = new JList<>(model);
+
+        cartModel = new DefaultListModel<>();
+        cartList = new JList<>(cartModel);
+
+        JPanel menuPanel = new JPanel(new BorderLayout());
+        menuPanel.add(new JLabel("메뉴 목록", JLabel.CENTER),
+                BorderLayout.NORTH);
+        menuPanel.add(new JScrollPane(menuList),
+                BorderLayout.CENTER);
+
+        JPanel cartPanel = new JPanel(new BorderLayout());
+        cartPanel.add(new JLabel("장바구니", JLabel.CENTER),
+                BorderLayout.NORTH);
+        cartPanel.add(new JScrollPane(cartList),
+                BorderLayout.CENTER);
+
+        jp3.add(menuPanel);
+        jp3.add(cartPanel);
+
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+
+        bottomPanel.add(jl2, BorderLayout.WEST);
+        bottomPanel.add(jp2, BorderLayout.EAST);
+
+        add(jp1, BorderLayout.NORTH);
+        add(jp3, BorderLayout.CENTER);
+        add(bottomPanel, BorderLayout.SOUTH);
+
+        jb1.addActionListener(this);
+        jb2.addActionListener(this);
+        jb3.addActionListener(this);
+        jb4.addActionListener(this);
+        jb5.addActionListener(this);
+        jb6.addActionListener(this);
+        jb7.addActionListener(this);
+        
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    private void showMenu(String[] menu) {
+
+        model.clear();
+
+        for (String item : menu) {
+            model.addElement(item);
+        }
+    }
+
+    private int getPrice(String menu) {
+
+        if (menu.contains("김치찌개")) return 8000;
+        if (menu.contains("된장찌개")) return 7000;
+        if (menu.contains("비빔밥")) return 9000;
+
+        if (menu.contains("파스타")) return 12000;
+        if (menu.contains("돈까스")) return 10000;
+        if (menu.contains("스테이크")) return 25000;
+
+        if (menu.contains("라면")) return 4000;
+        if (menu.contains("우동")) return 6000;
+        if (menu.contains("짜장면")) return 7000;
+
+        return 0;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource() == jb1) {
+            showMenu(korean);
+        }
+
+        else if (e.getSource() == jb2) {
+            showMenu(western);
+        }
+
+        else if (e.getSource() == jb3) {
+            showMenu(noodle);
+        }
+
+        else if (e.getSource() == jb4) {
+
+            String item = menuList.getSelectedValue();
+
+            if (item != null) {
+
+                cartModel.addElement(item);
+
+                total += getPrice(item);
+
+                jl2.setText("합계 : " + total + "원");
+            }
+        }
+
+        else if (e.getSource() == jb5) {
+
+            String item = cartList.getSelectedValue();
+
+            if (item != null) {
+
+                total -= getPrice(item);
+
+                cartModel.removeElement(item);
+
+                jl2.setText("합계 : " + total + "원");
+            }
+        }
+
+        else if (e.getSource() == jb6) {
+
+            if (cartModel.isEmpty()) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "장바구니가 비어있습니다."
+                );
+
+            } else {
+                new cash(total);
+                dispose();
+            }
+        }
+        else if(e.getSource() == jb7) {
+        	new class1();
+        	dispose();
+        }
+    }
+}
