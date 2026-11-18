@@ -1,0 +1,74 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class teachr extends JFrame implements ActionListener {
+    private JLabel jl1, jl2;
+    private JPanel jp1, jp2;
+    private JList<String> jt;
+    private DefaultListModel<String> model;
+    private JButton jb1, jb2;
+    private int price;
+
+    public teachr() {
+        // 레이아웃은 컴포넌트를 추가하기 전에 먼저 설정하는 것이 좋습니다.
+        setTitle("교직원 식당");
+        setSize(700, 450);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        Container ct = getContentPane();
+        ct.setLayout(new BorderLayout());
+
+        price = 7500;
+        jl1 = new JLabel("오늘의 메뉴", JLabel.CENTER);
+        jl2 = new JLabel("가격: " + price + "원", JLabel.CENTER);
+
+        // JList에 모델 연결 및 데이터 추가
+        model = new DefaultListModel<>();
+        model.addElement("김치찌개");
+        model.addElement("제육볶음");
+        model.addElement("계란말이");
+        model.addElement("샐러드");
+        jt = new JList<>(model);
+
+        // 버튼 생성
+        jb1 = new JButton("주문하기");
+        jb2 = new JButton("뒤로가기");
+
+        // 하단 버튼 패널
+        jp2 = new JPanel();
+        jp2.add(jb1);
+        jp2.add(jb2);
+
+        // 중앙 메뉴 표시 패널 (BorderLayout 적용)
+        jp1 = new JPanel(new BorderLayout());
+        jp1.add(jl1, BorderLayout.NORTH);
+        jp1.add(new JScrollPane(jt), BorderLayout.CENTER); // 리스트에는 스크롤바가 있는 것이 좋습니다.
+        jp1.add(jl2, BorderLayout.SOUTH);
+
+        // 프레임에 패널 배치
+        ct.add(jp1, BorderLayout.CENTER);
+        ct.add(jp2, BorderLayout.SOUTH);
+
+        // 이벤트 리스너 등록
+        jb1.addActionListener(this);
+        jb2.addActionListener(this);
+
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == jb1) {
+            // 주문하기 버튼 클릭 시 cash 화면 호출
+            new cash(price);
+            dispose();
+        } 
+        else if (e.getSource() == jb2) {
+            // 뒤로가기 버튼 클릭 시 이전 화면(class1)으로 이동 후 현재 창 닫기
+            new class1();
+            dispose();
+        }
+    }
+}
