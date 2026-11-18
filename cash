@@ -1,0 +1,68 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+public class cash extends JFrame implements ActionListener {
+	private JButton jb1,jb2,jb3,jb4,jb5;
+	private JPanel jp1,jp2;
+	private JLabel jl1,jl2;
+	private String payment = "";
+	public cash(int total) {
+		setTitle("결제 시스템");
+        setSize(700, 450);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout(10, 10));
+		Container ct = getContentPane();
+		
+		jp1 = new JPanel();
+		jp2 = new JPanel();
+		jb1 = new JButton("카드결제");
+		jb2 = new JButton("모바일 결제");
+		jb3 = new JButton("계좌이체");
+		jb4 = new JButton("결제하기");
+		jb5 = new JButton("뒤로가기");
+		jl1 = new JLabel("결제수단을 선택해주세요");
+		jl2 = new JLabel("결제금액: "+total+"원");
+		jp1.add(jl1);
+		jp1.add(jl2);
+		jp2.add(jb1);
+		jp2.add(jb2);
+		jp2.add(jb3);
+		jp2.add(jb4);
+		jp2.add(jb5);
+		jb1.addActionListener(this);
+		jb2.addActionListener(this);
+		jb3.addActionListener(this);
+		jb4.addActionListener(this);
+		ct.add(jp1,BorderLayout.CENTER);
+		ct.add(jp2,BorderLayout.SOUTH);
+		setLocationRelativeTo(null);
+        setVisible(true);
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == jb1) {
+			jl1.setText("카드가 선택되었습니다");
+			payment = "카드결제";
+		}
+		else if(e.getSource() == jb2) {
+			jl1.setText("모바일결제가 선택되었습니다");
+			payment = "모바일 결제";
+		}
+		else if(e.getSource() == jb3) {
+			jl1.setText("계좌이체가 선택되었습니다");
+			payment = "실시간 계좌이체";
+		}
+		if(e.getSource() == jb4) {
+			if(payment.equals("")) {
+				JOptionPane.showMessageDialog(this,"결제 수단을 선택하세요");
+			}
+			else {
+				JOptionPane.showMessageDialog(this,payment + "로 결제가 완료되었습니다");
+				new class1();
+				dispose();
+			}
+		}
+	}
+
+}
